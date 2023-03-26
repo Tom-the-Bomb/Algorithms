@@ -41,6 +41,62 @@ where
     arr
 }
 
+pub fn insertion_sort_nlogn<A, T>(arr: A) -> Vec<T>
+where
+    A: Into<Vec<T>>,
+    T: PartialOrd + Copy,
+{
+    let mut arr = arr.into();
+
+    for i in 0..arr.len() - 1 {
+        let (mut left, mut right) = (0, i + 1);
+        while (right - left) > 0 {
+            let mid = (left + right) / 2;
+            if arr[i + 1] > arr[mid] {
+                left = mid + 1;
+            } else if arr[i + 1] <= arr[mid] {
+                right = mid;
+            }
+        }
+        let elem = arr.remove(i + 1);
+        arr.insert(left, elem);
+    }
+    arr
+}
+
+pub fn merge_sort<A, T>(arr: A) -> Vec<T>
+where
+    A: Into<Vec<T>>,
+    T: PartialOrd + Copy,
+{
+    let arr = arr.into();
+
+    if arr.len() == 1 {
+        arr
+    } else {
+        let mid = arr.len() / 2;
+
+        let mut left = merge_sort(arr[..mid].to_vec());
+        let mut right = merge_sort(arr[..mid].to_vec());
+
+        let mut new_arr = Vec::new();
+        while !left.is_empty() && !right.is_empty() {
+            let elem = if left.first()
+                .map_or(false, |a| a < right.first().unwrap())
+            {
+                left.remove(0)
+            } else {
+                right.remove(0)
+            };
+            new_arr.push(elem);
+        }
+        left.extend(right);
+        new_arr.extend(left);
+
+        new_arr
+    }
+}
+
 pub fn bubble_sort<A, T>(arr: A) -> Vec<T>
 where
     A: Into<Vec<T>>,
@@ -65,4 +121,5 @@ fn main() {
     assert_eq!(bubble_sort(sample), output);
     assert_eq!(selection_sort(sample), output);
     assert_eq!(insertion_sort(sample), output);
+    assert_eq!(insertion_sort_nlogn(sample), output);
 }
