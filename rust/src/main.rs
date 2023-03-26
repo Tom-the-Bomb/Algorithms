@@ -77,7 +77,7 @@ where
         let mid = arr.len() / 2;
 
         let mut left = merge_sort(arr[..mid].to_vec());
-        let mut right = merge_sort(arr[..mid].to_vec());
+        let mut right = merge_sort(arr[mid..].to_vec());
 
         let mut new_arr = Vec::new();
         while !left.is_empty() && !right.is_empty() {
@@ -122,4 +122,5 @@ fn main() {
     assert_eq!(selection_sort(sample), output);
     assert_eq!(insertion_sort(sample), output);
     assert_eq!(insertion_sort_nlogn(sample), output);
+    assert_eq!(merge_sort(sample), output);
 }
