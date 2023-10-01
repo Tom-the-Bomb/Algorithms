@@ -130,7 +130,7 @@ where
             None
         } else {
             for j in i..arr.len() {
-                if &arr[i] == &arr[j] && i != j {
+                if arr[i] == arr[j] && i != j {
                     continue;
                 }
                 arr.swap(i, j);
@@ -155,5 +155,5 @@ fn main() {
     assert_eq!(insertion_sort(sample), output);
     assert_eq!(insertion_sort_nlogn(sample), output);
     assert_eq!(merge_sort(sample), output);
-    assert_eq!(permutations([1, 1, 3]), vec![vec![1, 1, 3], vec![1, 3, 1], vec![3, 1, 1]])
+    assert_eq!(permutations([1, 1, 3]), vec![vec![1, 1, 3], vec![1, 3, 1], vec![3, 1, 1]]);
 }
