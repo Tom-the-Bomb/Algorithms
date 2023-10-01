@@ -1,4 +1,5 @@
 import random
+import itertools
 
 def binary_search(arr: list[int], target: int) -> bool:
     middle = arr[len(arr) // 2]
@@ -82,6 +83,21 @@ def merge_sort(arr: list[int]) -> list[int]:
     new_arr += left + right
     return new_arr
 
+def permutations(nums: list[int], perms: list[int] = None, i: int = 0) -> set[tuple[int]]:
+    if perms is None:
+        perms = set()
+
+    if len(nums) == i:
+        return perms.add(tuple(nums))
+
+    for j in range(i, len(nums)):
+        if nums[i] == nums[j] and i != j:
+            continue
+        nums[i], nums[j] = nums[j], nums[i]
+        permutations(nums, perms, i + 1)
+        nums[i], nums[j] = nums[j], nums[i]
+    return perms
+
 if __name__ == '__main__':
     sample = list(range(100))
 
@@ -101,3 +117,5 @@ if __name__ == '__main__':
     assert insertion_sort_2(sample) == list(range(100))
     random.shuffle(sample)
     assert merge_sort(sample) == list(range(100))
+
+    assert permutations([1, 1, 3]) == set(itertools.permutations([1, 1, 3]))
