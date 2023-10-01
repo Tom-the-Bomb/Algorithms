@@ -114,6 +114,33 @@ where
     arr
 }
 
+pub fn permutations<A, T>(
+    arr: A, perms: Option<Vec<Vec<T>>>, i: Option<usize>
+) -> Vec<Vec<T>>
+where
+    A: Into<Vec<T>>,
+    T: Eq + Copy,
+{
+    let i = i.unwrap_or(0);
+    let mut arr = arr.into();
+    let mut _perms = perms
+        .unwrap_or_else(|| vec![]);
+    if arr.len() == i {
+        _perms.push(arr);
+        Default::default()
+    } else {
+        for j in i..arr.len() {
+            if &arr[i] == &arr[j] {
+                continue;
+            }
+            arr.swap(i, j);
+            permutations(arr.clone(), Some(_perms.clone()), Some(i + 1));
+            arr.swap(i, j);
+        }
+        _perms
+    }
+}
+
 fn main() {
     let sample = [6, 3, 8, 1, 2, 10, 9, 4, 7, 5, 0];
     let output = (0..=10).collect::<Vec<_>>();

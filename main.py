@@ -83,7 +83,7 @@ def merge_sort(arr: list[int]) -> list[int]:
     new_arr += left + right
     return new_arr
 
-def permutations(nums: list[int], perms: list[int] = None, i: int = 0) -> set[tuple[int]]:
+def permutations(nums: list[int], perms: set[tuple[int]] = None, i: int = 0) -> set[tuple[int]]:
     if perms is None:
         perms = set()
 
