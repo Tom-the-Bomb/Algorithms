@@ -114,31 +114,36 @@ where
     arr
 }
 
-pub fn permutations<A, T>(
-    arr: A, perms: Option<Vec<Vec<T>>>, i: Option<usize>
-) -> Vec<Vec<T>>
+pub fn permutations<A, T>(arr: A) -> Vec<Vec<T>>
 where
     A: Into<Vec<T>>,
     T: Eq + Copy,
 {
-    let i = i.unwrap_or(0);
-    let mut arr = arr.into();
-    let mut _perms = perms
-        .unwrap_or_else(|| vec![]);
-    if arr.len() == i {
-        _perms.push(arr);
-        Default::default()
-    } else {
-        for j in i..arr.len() {
-            if &arr[i] == &arr[j] {
-                continue;
+    fn recursive<T>(
+       arr: &mut Vec<T>, perms: &mut Vec<Vec<T>>, i: usize,
+    ) -> Option<Vec<Vec<T>>>
+    where
+        T: Eq + Copy
+    {
+        if arr.len() == i {
+            perms.push(arr.clone());
+            None
+        } else {
+            for j in i..arr.len() {
+                if &arr[i] == &arr[j] && i != j {
+                    continue;
+                }
+                arr.swap(i, j);
+                recursive(arr, perms, i + 1);
+                arr.swap(i, j);
             }
-            arr.swap(i, j);
-            permutations(arr.clone(), Some(_perms.clone()), Some(i + 1));
-            arr.swap(i, j);
+            Some(perms.clone())
         }
-        _perms
     }
+
+    let mut arr = arr.into();
+    recursive(&mut arr, &mut vec![], 0)
+        .unwrap()
 }
 
 fn main() {
@@ -150,4 +155,5 @@ fn main() {
     assert_eq!(insertion_sort(sample), output);
     assert_eq!(insertion_sort_nlogn(sample), output);
     assert_eq!(merge_sort(sample), output);
+    assert_eq!(permutations([1, 1, 3]), vec![vec![1, 1, 3], vec![1, 3, 1], vec![3, 1, 1]])
 }
