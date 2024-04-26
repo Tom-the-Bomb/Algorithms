@@ -54,7 +54,15 @@ def insertion_sort(arr: list[int]) -> list[int]:
             arr.insert(0, arr.pop(i + 1))
     return arr
 
-def insertion_sort_2(arr: list[int]) -> list[int]:
+def insertion_sort_swap(arr: list[int]) -> list[int]:
+    for i in range(len(arr) - 1):
+        for j in range(i, -1, -1):
+            if arr[j + 1] >= arr[j]:
+                break
+            arr[j], arr[j + 1] = arr[j + 1], arr[j]
+    return arr
+
+def insertion_sort_binary_search(arr: list[int]) -> list[int]:
     for i in range(len(arr) - 1):
         left, right = 0, i + 1
         while (right - left) > 0:
@@ -114,7 +122,9 @@ if __name__ == '__main__':
     random.shuffle(sample)
     assert insertion_sort(sample) == list(range(100))
     random.shuffle(sample)
-    assert insertion_sort_2(sample) == list(range(100))
+    assert insertion_sort_swap(sample) == list(range(100))
+    random.shuffle(sample)
+    assert insertion_sort_binary_search(sample) == list(range(100))
     random.shuffle(sample)
     assert merge_sort(sample) == list(range(100))
 
