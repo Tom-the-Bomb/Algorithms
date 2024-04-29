@@ -11,6 +11,15 @@ public class Sorts {
         arr[j] = temp;
     }
 
+    public static boolean linearSearch(int[] arr, int target) {
+        for (int num : arr) {
+            if (num == target) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public static boolean binarySearch(int[] arr, int target) {
         int left = 0;
         int middle = 0;
@@ -73,6 +82,31 @@ public class Sorts {
         }
     }
 
+    public static void insertionSort2(ArrayList<Integer> arr) {
+        for (int i = 0; i < arr.size() - 1; i++) {
+            int element = arr.remove(i + 1);
+            int j = i;
+            while (j > 0 && element < arr.get(j)) {
+                j--;
+            }
+            arr.add(j + 1, element);
+        }
+    }
+
+    public static void insertionSort3(ArrayList<Integer> arr) {
+        for (int i = 0; i < arr.size() - 1; i++) {
+            a: {
+                for (int j = i; j >= 0; j--) {
+                    if (arr.get(i + 1) >= arr.get(j)) {
+                        arr.add(j + 1, arr.remove(i + 1));
+                        break a;
+                    }
+                }
+                arr.add(0, arr.remove(i + 1));
+            }
+        }
+    }
+
     /* not in place */
     public static ArrayList<Integer> mergeSort(List<Integer> arr) {
         // finished dividing
@@ -120,8 +154,15 @@ public class Sorts {
         testList.add(5);
         testList.add(4);
         testList.add(6);
-        testList = mergeSort(testList);
+        ArrayList<Integer> testListCopy = new ArrayList<>(testList);
+        ArrayList<Integer> testListCopy2 = new ArrayList<>(testList);
+
+        insertionSort2(testList);
         System.out.println(testList);
+        insertionSort3(testListCopy);
+        System.out.println(testListCopy);
+        testListCopy2 = mergeSort(testListCopy2);
+        System.out.println(testListCopy2);
 
         System.out.println(binarySearch(testArr, 5));
         System.out.println(binarySearch(testArr, 6));
