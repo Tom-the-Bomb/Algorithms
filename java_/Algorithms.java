@@ -1,10 +1,10 @@
-package java_;
+
 
 import java.util.Arrays;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Sorts {
+public class Algorithms {
     private static void swap(int[] arr, int i, int j) {
         int temp = arr[i];
         arr[i] = arr[j];
@@ -135,6 +135,29 @@ public class Sorts {
         return newArr;
     }
 
+    public static void quickSort(int[] arr) {
+        quickSort(arr, 0, arr.length);
+    }
+
+    public static void quickSort(int[] arr, int start, int end) {
+        // base case: sub-arrays are of length `0` or `1`
+        if (end - start <= 1) return;
+
+        int pivot = arr[end - 1];
+        int i = 0;
+        for (int j = 0; j < end; j++) {
+            if (arr[j] <= pivot) {
+                swap(arr, i, j);
+                i++;
+            }
+        }
+        // account for excess increment due to the final swap of the pivot
+        i--;
+
+        quickSort(arr, start, i);
+        quickSort(arr, i + 1, end);
+    }
+
     public static void main(String[] args) {
         int[] testArr = {1, 9, 7, 0, 21, 2, 5, 7, 3};
         bubbleSort(testArr);
@@ -163,6 +186,10 @@ public class Sorts {
         System.out.println(testListCopy);
         testListCopy2 = mergeSort(testListCopy2);
         System.out.println(testListCopy2);
+
+        int[] testArr2 = new int[] {1, 5, 7, 1};
+        quickSort(testArr2);
+        System.out.println(Arrays.toString(testArr2));
 
         System.out.println(binarySearch(testArr, 5));
         System.out.println(binarySearch(testArr, 6));
