@@ -56,7 +56,7 @@ public class Sorts {
             // find minimum element from arr[i -> end]
             // and swap it with the element after the sorted subarray
             int minI = i;
-            for (int j = i; j < arr.length; j++) {
+            for (int j = i + 1; j < arr.length; j++) {
                 if (arr[j] < arr[minI]) {
                     minI = j;
                 }

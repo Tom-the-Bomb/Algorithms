@@ -38,7 +38,7 @@ def bubble_sort(arr: list[int]) -> list[int]:
 def selection_sort(arr: list[int]) -> list[int]:
     for n in range(len(arr) - 1, -1, -1):
         maxi = 0
-        for i in range(n + 1):
+        for i in range(1, n + 1):
             if arr[i] > arr[maxi]:
                 maxi = i
         arr[n], arr[maxi] = arr[maxi], arr[n]
