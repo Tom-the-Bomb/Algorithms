@@ -41,7 +41,7 @@ where
     arr
 }
 
-pub fn insertion_sort_nlogn<A, T>(arr: A) -> Vec<T>
+pub fn insertion_sort_binary_search<A, T>(arr: A) -> Vec<T>
 where
     A: Into<Vec<T>>,
     T: PartialOrd + Copy,
@@ -95,6 +95,33 @@ where
 
         new_arr
     }
+}
+
+#[inline]
+fn quick_sort_with_bounds<T>(mut arr: &mut [T], start: usize, end: usize)
+where
+    T: PartialOrd + Copy,
+{
+    if end - start <= 1 { return; }
+
+    let pivot = arr[end - 1];
+    let mut i = 0;
+    for j in 0..end {
+        if arr[j] <= pivot {
+            arr.swap(i, j);
+            i += 1;
+        }
+    }
+    i -= 1;
+    quick_sort_with_bounds(&mut arr, start, i);
+    quick_sort_with_bounds(&mut arr, i + 1, end);
+}
+
+pub fn quick_sort<T>(arr: &mut [T])
+where
+    T: PartialOrd + Copy,
+{
+    quick_sort_with_bounds(arr, 0, arr.len());
 }
 
 pub fn bubble_sort<A, T>(arr: A) -> Vec<T>
@@ -153,7 +180,11 @@ fn main() {
     assert_eq!(bubble_sort(sample), output);
     assert_eq!(selection_sort(sample), output);
     assert_eq!(insertion_sort(sample), output);
-    assert_eq!(insertion_sort_nlogn(sample), output);
+    assert_eq!(insertion_sort_binary_search(sample), output);
     assert_eq!(merge_sort(sample), output);
     assert_eq!(permutations([1, 1, 3]), vec![vec![1, 1, 3], vec![1, 3, 1], vec![3, 1, 1]]);
+
+    let mut sample = [6, 3, 8, 1, 2, 10, 9, 4, 7, 5, 0];
+    quick_sort(&mut sample);
+    assert_eq!(sample, output.as_slice());
 }

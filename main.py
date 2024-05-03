@@ -1,5 +1,6 @@
 import random
 import itertools
+from typing import Optional
 
 def binary_search(arr: list[int], target: int) -> bool:
     middle = arr[len(arr) // 2]
@@ -91,6 +92,24 @@ def merge_sort(arr: list[int]) -> list[int]:
     new_arr += left + right
     return new_arr
 
+def quick_sort(arr: list[int], start: int = 0, end: Optional[int] = None) -> list[int]:
+    if end is None:
+        end = len(arr)
+    if end - start <= 1:
+        return arr
+
+    pivot = arr[end - 1]
+    i = 0
+    for j in range(end):
+        if arr[j] <= pivot:
+            arr[i], arr[j] = arr[j], arr[i]
+            i += 1
+
+    i -= 1
+    quick_sort(arr, start, i)
+    quick_sort(arr, i + 1, end)
+    return arr
+
 def permutations(nums: list[int], perms: set[tuple[int]] = None, i: int = 0) -> set[tuple[int]]:
     if perms is None:
         perms = set()
@@ -108,6 +127,7 @@ def permutations(nums: list[int], perms: set[tuple[int]] = None, i: int = 0) -> 
 
 if __name__ == '__main__':
     sample = list(range(100))
+    sorted_range = sample.copy()
 
     assert binary_search(sample, 5)
     assert not binary_search(sample, 101)
@@ -116,16 +136,18 @@ if __name__ == '__main__':
     assert not looped_binary_search(sample, 101)
 
     random.shuffle(sample)
-    assert bubble_sort(sample) == list(range(100))
+    assert bubble_sort(sample) == sorted_range
     random.shuffle(sample)
-    assert selection_sort(sample) == list(range(100))
+    assert selection_sort(sample) == sorted_range
     random.shuffle(sample)
-    assert insertion_sort(sample) == list(range(100))
+    assert insertion_sort(sample) == sorted_range
     random.shuffle(sample)
-    assert insertion_sort_swap(sample) == list(range(100))
+    assert insertion_sort_swap(sample) == sorted_range
     random.shuffle(sample)
-    assert insertion_sort_binary_search(sample) == list(range(100))
+    assert insertion_sort_binary_search(sample) == sorted_range
     random.shuffle(sample)
-    assert merge_sort(sample) == list(range(100))
+    assert merge_sort(sample) == sorted_range
+    random.shuffle(sample)
+    assert quick_sort(sample) == sorted_range
 
     assert permutations([1, 1, 3]) == set(itertools.permutations([1, 1, 3]))
